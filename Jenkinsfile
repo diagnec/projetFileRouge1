@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = 'jnk-creds' 
-        DOCKERHUB_USER = 'mormbathie'       
+        DOCKERHUB_USER = 'cheikh9708'       
     }
 
     stages {
