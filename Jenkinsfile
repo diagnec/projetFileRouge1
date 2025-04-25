@@ -19,7 +19,7 @@ pipeline {
                 dir('Backend/odc') {
                     echo "⚙️ Création de l'environnement virtuel et test de Django"
                     bat '''
-                        python3 -m venv venv
+                        python -m venv venv
                         . venv/bin/activate
                         pip install --upgrade pip
                         pip install -r requirements.txt
