@@ -47,7 +47,7 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 echo "🚀 Envoi des images Docker sur Docker Hub"
-                withCredentials([usernamePassword(credentialsId: "cheikh9708", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_USER}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     bat '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push $DOCKER_USER/odc_backend:latest
