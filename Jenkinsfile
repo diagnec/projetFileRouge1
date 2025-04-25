@@ -18,7 +18,7 @@ pipeline {
             steps {
                 dir('Backend/odc') {
                     echo "⚙️ Création de l'environnement virtuel et test de Django"
-                    sh '''
+                    bat '''
                         python3 -m venv venv
                         . venv/bin/activate
                         pip install --upgrade pip
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 dir('Frontend') {
                     echo "⚙️ Installation et test du frontend React"
-                    sh '''
+                    bat '''
                         export PATH=$PATH:/var/lib/jenkins/.nvm/versions/node/v22.15.0/bin/
                         npm install
                         npm run build
@@ -47,10 +47,10 @@ pipeline {
             steps {
                 script {
                     echo "🐳 Construction de l'image Docker Backend"
-                    sh "docker build -t ${DOCKERHUB_USER}/odc_backend:latest -f ./Backend/odc/Dockerfile ./Backend/odc"
+                    bat "docker build -t ${DOCKERHUB_USER}/odc_backend:latest -f ./Backend/odc/Dockerfile ./Backend/odc"
 
                     echo "🐳 Construction de l'image Docker Frontend"
-                    sh "docker build -t ${DOCKERHUB_USER}/odc_frontend:latest ./Frontend"
+                    bat "docker build -t ${DOCKERHUB_USER}/odc_frontend:latest ./Frontend"
                 }
             }
         }
@@ -59,7 +59,7 @@ pipeline {
             steps {
                 echo "🚀 Envoi des images Docker sur Docker Hub"
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
+                    bat '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push $DOCKER_USER/odc_backend:latest
                         docker push $DOCKER_USER/odc_frontend:latest
@@ -70,7 +70,7 @@ pipeline {
         stage('run'){
             steps{
                 dir('cd ..'){
-                sh '''
+                bat '''
                 docker-compose down || true
                 docker-compose build
                 docker-compose up
