@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = 'jnk-creds' 
+        DOCKER_HUB_CREDENTIALS = 'docks' 
         DOCKERHUB_USER = 'cheikh9708'       
     }
 
