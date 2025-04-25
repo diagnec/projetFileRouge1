@@ -11,8 +11,8 @@ pipeline {
     stages {
         stage('Cloner le dépôt') {
             steps {
-                git branch: 'votre branche principale',
-                    url: 'le lien de votre repo github contenant le projet fil rouge'
+                git branch: 'main',
+                    url: 'https://github.com/diagnec/projetFileRouge1.git'
             }
         }
         stage('Build des images') {
@@ -25,7 +25,7 @@ pipeline {
 
         stage('Push des images sur Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: 'votre credential dockerhub', url: '']) {
+                withDockerRegistry([credentialsId: 'ssh-deploy-key', url: '']) {
                     sh 'docker push $BACKEND_IMAGE:latest'
                     sh 'docker push $FRONTEND_IMAGE:latest'
                     sh 'docker push $MIGRATE_IMAGE:latest'
@@ -46,12 +46,12 @@ pipeline {
 
     post {
         success {
-            mail to: 'votre email@gmail.com',
+            mail to: 'diagnec809@gmail.com',
                  subject: "reussite",
                  body: "L'application a été déployée."
         }
         failure {
-            mail to: 'votre@gmail.com',
+            mail to: 'diagnec809@gmail.com',
                  subject: "❌ Échec",
                  body: "Une erreur s’est produite"
         }
